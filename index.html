@@ -176,6 +176,8 @@ output{font-family:var(--ui);font-variant-numeric:tabular-nums;font-size:1.3rem;
 .map .clab{fill:var(--ink);font-family:var(--zh);font-size:17px}
 .map .leg{stroke:var(--cinnabar);stroke-width:2.2;stroke-dasharray:6 5;fill:none;opacity:0}
 .map .leg.on{opacity:.9}
+.map .leg.on.past{opacity:.3}
+.map .arr.on.past{opacity:.3}
 .map .legmask{fill:none;stroke:#fff;stroke-width:10;stroke-dasharray:1 1;stroke-dashoffset:1;stroke-linecap:round}
 .map .arr{fill:var(--cinnabar);opacity:0;transition:opacity .3s}
 .map .arr.on{opacity:.95}
@@ -1220,7 +1222,7 @@ function setLeg(p,on,delay){ if(on===p.isOn) return; p.isOn=on; const mp=p.mpath
   else { mp.style.transition="none"; mp.style.strokeDashoffset=on?"0":"1"; p.classList.toggle("on",on); p.arrow.style.transitionDelay="0s"; p.arrow.classList.toggle("on",on); } }
 let stop=1; const stops=$$("#stops li");
 function showStop(n){ stop=Math.max(1,Math.min(17,n)); stops.forEach(li=>li.hidden= +li.dataset.stop!==stop);
-  const nNew=legs.filter((p,i)=>i<stop-1&&!p.isOn).length, step=Math.min(.35,2.4/Math.max(1,nNew)); let q=0; legs.forEach((p,i)=>{ const on=i<stop-1; if(on&&!p.isOn){ setLeg(p,true,q*step); q++; } else setLeg(p,on,0); });
+  const nNew=legs.filter((p,i)=>i<stop-1&&!p.isOn).length, step=Math.min(.35,2.4/Math.max(1,nNew)); let q=0; legs.forEach((p,i)=>{ const on=i<stop-1; if(on&&!p.isOn){ setLeg(p,true,q*step); q++; } else setLeg(p,on,0); }); legs.forEach((p,i)=>{ const past=i<stop-2; p.classList.toggle("past",past); p.arrow.classList.toggle("past",past); });
   $$("#routeStrip button").forEach(b=>{ const k=+b.dataset.rs; b.setAttribute("aria-current", k===stop?"true":"false"); b.classList.toggle("seen", k<stop); }); const [x,y]=C[R[stop-1]]; ["#here","#hereGlow"].forEach(q=>{ const h=$(q); h.setAttribute("cx",x); h.setAttribute("cy",y); });
   $("#prevStop").disabled=stop===1; $("#nextStop").disabled=stop===17;
   $$("#evs button").forEach(b=>b.setAttribute("aria-pressed", +b.dataset.sg===stop?"true":"false")); }
