@@ -306,6 +306,10 @@ footer{margin-top:48px;font-family:var(--ui);font-size:13px;color:var(--ink-soft
 /* headings: 顏楷 for big titles, 楷書 for box titles (中文) */
 :root[lang="zh-Hant"] .hero h1,:root[lang="zh-Hant"] section[data-scene] .shead h2,:root[lang="zh-Hant"] .quiz h2,.hero .zh-title{font-family:var(--yan)!important;font-weight:400!important}
 :root[lang="zh-Hant"] .lab h3,:root[lang="zh-Hant"] .lab h3 *{font-family:var(--zh)!important;font-weight:600}
+
+/* 專名號 */
+.pn{text-decoration-line:underline;text-decoration-style:solid;text-decoration-thickness:1px;text-underline-offset:.28em;text-decoration-skip-ink:none}
+.pl{text-decoration-line:underline;text-decoration-style:wavy;text-decoration-thickness:1px;text-underline-offset:.3em;text-decoration-skip-ink:none}
 </style>
 </head>
 <body>
@@ -1131,7 +1135,7 @@ function initCites(root=document){ $$("sup.cite",root).forEach(el=>{
 initCites();
 const popBg=$("#popBg"); let lastFocus=null;
 function openCite(id){ const s=SOURCES[id]; if(!s) return; lastFocus=document.activeElement;
-  $("#popPg").textContent=UI("page",{p:s.page,pp:s.page+4}); $("#popZh").textContent=s.quote;
+  $("#popPg").textContent=UI("page",{p:s.page,pp:s.page+4}); $("#popZh").textContent=s.quote; if(window.markNames) markNames($("#popZh"));
   const para = LANG==="km" ? (I18N.kmsrc[id]||"") : LANG==="zh-Hant" ? "" : s.vi;
   $("#popVi").textContent=para; $("#popVi").hidden=!para;
   const b=$("#popBh"); if(s.sec){ b.hidden=false; b.textContent=UI("readsec",{n:s.sec}); b.dataset.sec=s.sec; } else b.hidden=true;
@@ -1266,7 +1270,7 @@ $$(".qi").forEach(q=>$$(".opt",q).forEach(b=>b.addEventListener("click",()=>{ co
 /* hover preview for citations */
 (function(){ const tip=$("#tip"); const canHover=matchMedia("(hover: hover) and (pointer: fine)");
   function show(el){ const id=el.dataset.cite, s=SOURCES[id]; if(!s||!canHover.matches) return;
-    $(".pg",tip).textContent=UI("page",{p:s.page,pp:s.page+4}); $(".zq",tip).textContent=s.quote;
+    $(".pg",tip).textContent=UI("page",{p:s.page,pp:s.page+4}); $(".zq",tip).textContent=s.quote; if(window.markNames) markNames($(".zq",tip));
     const para= LANG==="km" ? (I18N.kmsrc[id]||"") : LANG==="zh-Hant" ? "" : s.vi; $(".vv",tip).textContent=para; $(".vv",tip).hidden=!para;
     tip.hidden=false; const r=el.getBoundingClientRect(), tw=tip.offsetWidth, th=tip.offsetHeight;
     let x=Math.min(Math.max(16,r.left+r.width/2-tw/2), innerWidth-tw-16), y=r.top-th-8; if(y<64) y=r.bottom+8;
@@ -1279,6 +1283,39 @@ $$(".qi").forEach(q=>$$(".opt",q).forEach(b=>b.addEventListener("click",()=>{ co
 
 /* in-text links to scenes */
 document.addEventListener("click",e=>{ const a=e.target.closest&&e.target.closest("a[data-goto]"); if(a){ e.preventDefault(); jumpTo(a.dataset.goto); } });
+/* 專名號: person names straight underline, place names wavy underline (Chinese text only) */
+(function(){
+const PERSON = ["孔子","孔丘","仲尼","尼父","叔梁紇","孔防叔","防叔","伯夏","顏氏女","季孫子","季孫氏","季孫","季氏","季平子","平子","季桓子","桓子","季康子","康子","季武子","武子","陽虎","孟釐子","釐子","孟懿子","懿子","南宮敬叔","敬叔","弗父何","正考父","考父","厲公","戴公","武公","宣公","老子","晉平公","楚靈王","齊景公","景公","晏嬰","晏子","秦穆公","秦繆","百里奚","郈昭伯","魯昭公","昭公","高昭子","魯定公","定公","魯哀公","哀公","魯襄公","襄公","公山不狃","仲梁懷","黎鉏","申句須","樂頎","叔孫輒","公斂處父","孟孫氏","孟孫","叔孫氏","孟氏","少正卯","子路","仲由","師己","衛靈公","靈公","顏濁鄒","公孫余假","顏刻","顏淵","顏回","文王","武王","甯武子","寧武子","蘧伯玉","南子","雍渠","桓魋","子貢","子贛","皋陶","子產","司城貞子","夫差","趙鞅","趙簡子","簡子","句踐","陳湣公","湣公","大姬","太姬","虞胡公","公叔氏","公良孺","佛肸","師襄子","竇鳴犢","舜華","衛出公","出公","太子蒯聵","蒯聵","公之魚","冉求","冉有","蔡昭公","公孫翩","葉公","長沮","桀溺","荷蓧丈人","伯夷","叔齊","王子比干","比干","楚昭王","昭王","子西","宰予","周公","召公","接輿","太宰嚭","季康","孔文子","文子","公華","公賓","公林","鉏商","柳下惠","少連","虞仲","夷逸","子夏","伯魚","子思","子上","子家","子京","子高","子慎","陳王涉","陳勝","子襄","孝惠皇帝","延年","安國","高皇帝","太史公","司馬遷","商湯","微子","商紂王","紂王","孔父嘉","華督","宋愍公","錢穆","錢大昕","林語堂","晉文公","周天子","周襄王","防風氏","汪罔氏","僬僥氏","后稷","唐堯","虞舜","堯","舜","禹","紂","湯","契","忠","武","卬","驩","鮒","伋","鯉","白","求","箕","穿"];
+const PLACE = ["昌平鄉","陬邑","陬鄉","鄹城","郰","尼丘山","尼丘","防山","五父之衢","五父衢","乾侯","夾谷","汶陽","龜陰","姑蔑","中都","會稽山","會稽","朝歌","城父","州來","中牟","西河","河陽","踐土","大野","泗上","泗水","孔里","尼谿","曲阜","首陽山","黃河","長沙","臨淮","豐","鎬","鄆","郈","費邑","費城","成邑","成城","郎亭","戚城","封、禺之山","魯國","齊國","衛國","宋國","鄭國","陳國","蔡國","楚國","晉國","吳國","越國","秦國","曹國","周室","魯城","魯","齊","衛","宋","鄭","陳","蔡","楚","晉","吳","越","秦","曹","匡","蒲","葉","杞","魏","陬","屯","戚","繒","郎","費","成","防"];
+// contexts where a single character is NOT a place / person
+const NOT = {
+ "陳":/^陳(?=俎|女|列|設|述)/, "周":/^周(?=遊|到|道|全|密)/, "齊":/^齊(?=衰|全|備|心|，戰)/, "越":/^越(?=分|來|過|發|好)/,
+ "葉":/^葉(?=公)/, "宋":/^宋(?=體)/, "楚":/^楚(?=狂)/
+};
+// characters that count only after / before certain neighbours
+const NEED = { "忠":{prev:"生"}, "武":{prev:"生了",next:"生"}, "白":{prev:"生了"}, "求":{prev:"生了"}, "箕":{prev:"生了"}, "穿":{prev:"生了"}, "鯉":{prev:"生了"}, "伋":{prev:"生了"}, "鮒":{prev:"生了",next:"弟年"}, "卬":{prev:"生了",next:"生"}, "驩":{prev:"生了"}, "契":{next:"后"}, "湯":{prev:"商"}, "成":{prev:"墮圍拆"}, "費":{prev:"墮以據拆",next:"邑城人"}, "郎":{prev:"於"}, "戚":{prev:"於圍"}, "屯":{prev:"乎在"}, "防":{prev:"於",next:"山"} };
+const ALL=[...PERSON.map(t=>[t,"pn"]),...PLACE.map(t=>[t,"pl"])].sort((a,b)=>b[0].length-a[0].length);
+const SKIP=new Set(["SUP","A","BUTTON","H1","H2","H3","H4","SMALL","SCRIPT","STYLE","SVG","TEXT"]);
+function okAt(text,i,t){ if(t.length!==1) return true; const r=NOT[t]; if(r && r.test(text.slice(i))) return false; const n=NEED[t]; if(n){ const pv=text[i-1]||"", nx=text[i+1]||""; return (n.prev&&n.prev.includes(pv))||(n.next&&n.next.includes(nx)); } return true; }
+function markText(node){
+  const text=node.nodeValue; if(!/[一-鿿]/.test(text)) return;
+  const out=[]; let i=0, buf="";
+  while(i<text.length){ let hit=null;
+    for(const [t,c] of ALL){ if(text.startsWith(t,i) && okAt(text,i,t)){ hit=[t,c]; break; } }
+    if(hit){ if(buf){ out.push(document.createTextNode(buf)); buf=""; } const sp=document.createElement("span"); sp.className=hit[1]; sp.textContent=hit[0]; out.push(sp); i+=hit[0].length; }
+    else { buf+=text[i]; i++; } }
+  if(out.length===0) return; if(buf) out.push(document.createTextNode(buf));
+  const f=document.createDocumentFragment(); out.forEach(n=>f.appendChild(n)); node.parentNode.replaceChild(f,node);
+}
+function walk(el){ if(!el || el.nodeType!==1) return;
+  if(SKIP.has(el.tagName.toUpperCase()) || el.classList.contains("pn")||el.classList.contains("pl")||el.classList.contains("tag")||el.classList.contains("lbl")||el.classList.contains("an-skip")) return;
+  [...el.childNodes].forEach(n=>{ if(n.nodeType===3) markText(n); else walk(n); }); }
+window.markNames=function(root){ (root.nodeType?[root]:root).forEach(walk); };
+window.markNamesZh=function(){ if(document.documentElement.lang!=="zh-Hant") return;
+  document.querySelectorAll("main [data-t]").forEach(el=>{ if(/^(P|DIV|SPAN|FIGCAPTION|LI)$/.test(el.tagName) && !el.closest(".route,.evs,nav,.shead,.lab h3,.howto")) walk(el); }); };
+document.querySelectorAll(".ywtxt,.bhtxt,.zhq,.card .back").forEach(walk);
+})();
+
 /* language switch */
 function setLang(l){ if(!["vi","zh-Hant","km"].includes(l)) l="vi"; LANG=l;
   const dict = l==="zh-Hant"?I18N.zh : l==="km"?I18N.km : null;
@@ -1287,6 +1324,7 @@ function setLang(l){ if(!["vi","zh-Hant","km"].includes(l)) l="vi"; LANG=l;
   initCites();
   $$("[data-dyn]").forEach(m=>{ const v=+m.dataset.v; m.textContent = m.dataset.dyn==="g2" ? UI("guess_girls",{v})+" "+(v===80?UI("hit"):(v>80?UI("more"):UI("less"))) : UI("guess_poems",{v}); });
   document.documentElement.lang=l; document.title=UI("title");
+  if(window.markNamesZh) markNamesZh();
   $$(".life .yr").forEach(t=>{ const y=t.dataset.y; t.textContent = l==="zh-Hant" ? "公元前"+y : l==="km" ? y+" ម.គ.ស" : y+" TCN"; });
   $("#popClose").setAttribute("aria-label",UI("close")); $("#prevStop").setAttribute("aria-label",UI("prev")); $("#nextStop").setAttribute("aria-label",UI("next"));
   $("#langSel").value=l; store.set("kz-lang",l);
