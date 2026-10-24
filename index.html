@@ -307,6 +307,46 @@ footer{margin-top:48px;font-family:var(--ui);font-size:13px;color:var(--ink-soft
 :root[lang="zh-Hant"] .hero h1,:root[lang="zh-Hant"] section[data-scene] .shead h2,:root[lang="zh-Hant"] .quiz h2,.hero .zh-title{font-family:var(--yan)!important;font-weight:400!important}
 :root[lang="zh-Hant"] .lab h3,:root[lang="zh-Hant"] .lab h3 *{font-family:var(--zh)!important;font-weight:600}
 
+
+/* mobile: vertical life timeline */
+.lifev{display:none;list-style:none;margin:18px 0 6px;padding:0 0 0 14px;border-left:2px solid var(--rule);position:relative}
+.lvb{position:relative;margin:0 0 12px}
+.lvb::before{content:"";position:absolute;left:-23px;top:13px;width:10px;height:10px;border-radius:50%;background:var(--paper);border:2px solid var(--ink-soft)}
+.lvb.hot::before{background:var(--cinnabar);border-color:var(--cinnabar)}
+.lvh{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-height:40px;border:1px solid var(--ink-soft);background:var(--paper-2);border-radius:4px;padding:6px 12px;cursor:pointer;font-weight:600;text-align:left;font-size:.95em}
+.lvb.hot .lvh{border-color:var(--cinnabar);background:rgba(168,56,42,.14)}
+.lvgo{color:var(--qing);font-family:var(--ui);font-weight:400}
+.lve{display:grid;grid-template-columns:3.2em minmax(0,1fr) auto;gap:8px;align-items:baseline;padding:5px 2px 0 4px;font-size:.92em;line-height:1.4}
+.lve .age{font-family:var(--ui);font-size:12.5px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.lve .yr{font-family:var(--ui);font-size:12px;color:var(--cinnabar);font-variant-numeric:tabular-nums;white-space:nowrap}
+:root[lang="zh-Hant"] .lvh,:root[lang="zh-Hant"] .lvh *{font-family:var(--zh)!important}
+@media (max-width:600px){.scroll-x{display:none}.lifev{display:block}}
+/* mobile: map labels readable, tighter chrome */
+@media (max-width:640px){
+ .map .clab{font-size:19px}.map .snum{font-size:14.5px}.map .reg{font-size:24px}.map .rlab{font-size:17px}
+ .lab{padding:14px;margin:18px -4px}
+ .route{padding:8px 6px}
+ .route button{min-width:34px;font-size:1.2rem}
+}
+@media (max-width:420px){
+ .bar-in{gap:2px}
+ .dots{gap:0}.dots button{width:19px}
+ .dots button span{width:8px;height:8px}
+ .langsel{height:36px;font-size:13px;padding:0 2px;margin-right:0}
+ .tools button{min-width:30px;font-size:13px}
+ .bar .seal.topseal{width:38px;height:38px}
+ .bar .seal.topseal i{font-size:14px}
+ .hero{padding-block:28px 18px}
+ section[data-scene]{padding-block:40px 6px}
+ .shead{gap:10px}.shead .seal{width:40px;height:40px;font-size:21px}
+ .bhtxt p,.ywtxt p{text-indent:0}
+ details.bh{padding:0 10px}
+ .ywtxt{padding-left:10px}
+ .qin button{min-height:52px;padding:4px 2px}
+ .backbtn{padding:8px 14px;font-size:13px}
+ .pop{padding:16px 16px;max-height:85vh}
+}
+
 /* 專名號 */
 .pn{text-decoration-line:underline;text-decoration-style:solid;text-decoration-thickness:1px;text-underline-offset:.28em;text-decoration-skip-ink:none}
 .pl{text-decoration-line:underline;text-decoration-style:wavy;text-decoration-thickness:1px;text-underline-offset:.3em;text-decoration-skip-ink:none}
@@ -413,6 +453,30 @@ footer{margin-top:48px;font-family:var(--ui);font-size:13px;color:var(--ink-soft
     </g>
   </svg>
   </div>
+  <ol class="lifev">
+   <li class="lvb"><button type="button" class="lvh" data-go="s1"><span data-t="t006">Tuổi thơ</span><span class="lvgo" aria-hidden="true">→</span></button>
+    <div class="lve"><span class="age">0</span><span data-t="t011">sinh</span><span class="yr" data-y="551">551 TCN</span></div>
+    <div class="lve"><span class="age">17</span><span data-t="t012">Mạnh Hi tử</span><span class="yr" data-y="535">535 TCN</span></div>
+   </li>
+   <li class="lvb"><button type="button" class="lvh" data-go="s2"><span data-t="t007">Hỏi lễ · Tề</span><span class="lvgo" aria-hidden="true">→</span></button>
+    <div class="lve"><span class="age">30</span><span data-t="t013">Cảnh công hỏi</span><span class="yr" data-y="522">522 TCN</span></div>
+    <div class="lve"><span class="age">35</span><span data-t="t014">sang Tề</span><span class="yr" data-y="517">517 TCN</span></div>
+   </li>
+   <li class="lvb"><button type="button" class="lvh" data-go="s3"><span data-t="t008">Quan Lỗ</span><span class="lvgo" aria-hidden="true">→</span></button>
+    <div class="lve"><span class="age">50</span><span data-t="t015">Dương Hổ chạy</span><span class="yr" data-y="501">501 TCN</span></div>
+   </li>
+   <li class="lvb hot"><button type="button" class="lvh" data-go="s4"><span data-t="t009">14 năm lang bạt</span><span class="lvgo" aria-hidden="true">→</span></button>
+    <div class="lve"><span class="age">56</span><span data-t="t016">rời Lỗ</span><span class="yr" data-y="496">496 TCN</span></div>
+    <div class="lve"><span class="age">60</span><span data-t="t017">ở Trần</span><span class="yr" data-y="492">492 TCN</span></div>
+    <div class="lve"><span class="age">63</span><span data-t="t018">về Vệ</span><span class="yr" data-y="489">489 TCN</span></div>
+   </li>
+   <li class="lvb"><button type="button" class="lvh" data-go="s6"><span data-t="t010">Về Lỗ</span><span class="lvgo" aria-hidden="true">→</span></button>
+    <div class="lve"><span class="age">~68*</span><span data-t="t019">về Lỗ</span><span class="yr" data-y="484">484 TCN</span></div>
+    <div class="lve"><span class="age">~71*</span><span data-t="t020">bắt lân</span><span class="yr" data-y="481">481 TCN</span></div>
+    <div class="lve"><span class="age">73</span><span data-t="t021">mất</span><span class="yr" data-y="479">479 TCN</span></div>
+   </li>
+  </ol>
+
   <p data-t="t022" class="howto">Chạm một chặng đời để tới mục đó. Số nhỏ màu đỏ cạnh câu là trang trong sách gốc: chạm để xem nguyên văn chữ Hán, rồi mở tiết tương ứng. Cuối mỗi mục có phần «Đọc 原文 và bản dịch» chứa toàn văn và bản dịch tiếng Việt. Tuổi có dấu * là <span class="tag" data-label="推算">suy tính</span> từ niên hiệu trong sách.</p>
   <p class="howto" data-t="yrnote">Năm Tây lịch (TCN) tính từ niên hiệu nước Lỗ trong sách; năm sinh theo thuyết phổ biến là 551 TCN (có thuyết là 552). Riêng mốc 50 tuổi, sách ghi năm Định công thứ 9, tức 501 TCN.</p>
   <div class="resume" id="resume" hidden><span data-t="resume">Lần trước bạn đọc tới giữa chừng.</span><button data-t="t023" id="resumeBtn">Đọc tiếp</button></div>
@@ -1325,7 +1389,7 @@ function setLang(l){ if(!["vi","zh-Hant","km"].includes(l)) l="vi"; LANG=l;
   $$("[data-dyn]").forEach(m=>{ const v=+m.dataset.v; m.textContent = m.dataset.dyn==="g2" ? UI("guess_girls",{v})+" "+(v===80?UI("hit"):(v>80?UI("more"):UI("less"))) : UI("guess_poems",{v}); });
   document.documentElement.lang=l; document.title=UI("title");
   if(window.markNamesZh) markNamesZh();
-  $$(".life .yr").forEach(t=>{ const y=t.dataset.y; t.textContent = l==="zh-Hant" ? "公元前"+y : l==="km" ? y+" ម.គ.ស" : y+" TCN"; });
+  $$(".life .yr,.lifev .yr").forEach(t=>{ const y=t.dataset.y; t.textContent = l==="zh-Hant" ? "公元前"+y : l==="km" ? y+" ម.គ.ស" : y+" TCN"; });
   $("#popClose").setAttribute("aria-label",UI("close")); $("#prevStop").setAttribute("aria-label",UI("prev")); $("#nextStop").setAttribute("aria-label",UI("next"));
   $("#langSel").value=l; store.set("kz-lang",l);
   if(typeof drawField==="function") drawField($("#g4r").disabled?305:+$("#g4r").value);
