@@ -186,7 +186,11 @@ output{font-family:var(--ui);font-variant-numeric:tabular-nums;font-size:1.3rem;
 .route button[aria-current="true"]{background:var(--cinnabar);color:var(--paper)}
 .route button[aria-current="true"] small{color:var(--paper)}
 .route .ra{color:var(--ink-soft);font-size:.95rem;padding:0 1px;margin-top:-12px}
-.map .here{fill:none;stroke:var(--cinnabar);stroke-width:2.5}
+.map .here{fill:var(--cinnabar);stroke:var(--paper);stroke-width:1.5;transform-box:fill-box;transform-origin:center;animation:hb 1.3s ease-in-out infinite}
+.map .glow{fill:var(--cinnabar);filter:url(#hglow);transform-box:fill-box;transform-origin:center;animation:hbg 1.3s ease-out infinite;pointer-events:none}
+@keyframes hb{0%,100%{transform:scale(1)}14%{transform:scale(1.28)}28%{transform:scale(1)}42%{transform:scale(1.2)}70%{transform:scale(1)}}
+@keyframes hbg{0%{transform:scale(.8);opacity:.55}14%{transform:scale(1.9);opacity:.45}28%{transform:scale(1.4);opacity:.3}42%{transform:scale(2.3);opacity:.35}80%,100%{transform:scale(2.6);opacity:0}}
+@media (prefers-reduced-motion: reduce){.map .here,.map .glow{animation:none}.map .glow{opacity:.35;transform:scale(1.6)}}
 .stops{list-style:none;margin:0;padding:0}
 .stops li .k{font-family:var(--ui);font-size:12.5px;color:var(--ink-soft)}
 .stops li h4{margin:2px 0 6px;font-size:1.25rem}
@@ -611,7 +615,7 @@ footer{margin-top:48px;font-family:var(--ui);font-size:13px;color:var(--ink-soft
         <circle cx="523" cy="57" r="5" class="city" style="opacity:.5"/><text class="clab" x="533" y="63" style="opacity:.55">齊</text>
         <g id="legs"></g>
         <g id="cities"></g>
-        <circle id="here" class="here" r="12" cx="425" cy="154"/>
+        <filter id="hglow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="2.5"/></filter><circle id="hereGlow" class="glow" r="7" cx="425" cy="154"/><circle id="here" class="here" r="7" cx="425" cy="154"/>
       </svg>
       <div>
         <ol class="stops" id="stops">
@@ -1216,7 +1220,7 @@ function setLeg(p,on,delay){ if(on===p.isOn) return; p.isOn=on; const mp=p.mpath
 let stop=1; const stops=$$("#stops li");
 function showStop(n){ stop=Math.max(1,Math.min(17,n)); stops.forEach(li=>li.hidden= +li.dataset.stop!==stop);
   const nNew=legs.filter((p,i)=>i<stop-1&&!p.isOn).length, step=Math.min(.35,2.4/Math.max(1,nNew)); let q=0; legs.forEach((p,i)=>{ const on=i<stop-1; if(on&&!p.isOn){ setLeg(p,true,q*step); q++; } else setLeg(p,on,0); });
-  $$("#routeStrip button").forEach(b=>{ const k=+b.dataset.rs; b.setAttribute("aria-current", k===stop?"true":"false"); b.classList.toggle("seen", k<stop); }); const [x,y]=C[R[stop-1]]; const h=$("#here"); h.setAttribute("cx",x); h.setAttribute("cy",y);
+  $$("#routeStrip button").forEach(b=>{ const k=+b.dataset.rs; b.setAttribute("aria-current", k===stop?"true":"false"); b.classList.toggle("seen", k<stop); }); const [x,y]=C[R[stop-1]]; ["#here","#hereGlow"].forEach(q=>{ const h=$(q); h.setAttribute("cx",x); h.setAttribute("cy",y); });
   $("#prevStop").disabled=stop===1; $("#nextStop").disabled=stop===17;
   $$("#evs button").forEach(b=>b.setAttribute("aria-pressed", +b.dataset.sg===stop?"true":"false")); }
 $$("#evs button").forEach(b=>b.addEventListener("click",()=>showStop(+b.dataset.sg)));
