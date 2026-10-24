@@ -37,6 +37,7 @@ body{margin:0}
   --km: "KmSerifSub","Noto Serif Khmer","Khmer OS Siemreap","Khmer Sangam MN","Leelawadee UI",var(--vi);
   --ui: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --fs:1.0625rem;
+  --gut:16px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --paper:#1b1813;--paper-2:#24201a;--ink:#ebe0c6;--ink-soft:#b9ab8e;--rule:#4a4235;
@@ -47,7 +48,7 @@ body{margin:0}
 
 *{box-sizing:border-box}
 body{background:var(--paper);color:var(--ink);font-family:var(--vi);font-size:var(--fs);line-height:1.7;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 80px}
+  padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px));padding-block:0 80px}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
 :lang(zh){font-family:var(--zh)}
 a{color:var(--qing)}
@@ -71,8 +72,8 @@ h1,h2,h3{text-wrap:balance;line-height:1.2;font-weight:600}
 .langsel{height:40px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:14px;padding:0 6px;margin-right:4px;cursor:pointer}
 /* top bar */
 .bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--paper);border-bottom:1px solid var(--rule);
-  margin-left:calc(-1*max(16px,env(safe-area-inset-left,0px)));margin-right:calc(-1*max(16px,env(safe-area-inset-right,0px)));
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  margin-left:calc(-1*max(var(--gut),env(safe-area-inset-left,0px)));margin-right:calc(-1*max(var(--gut),env(safe-area-inset-right,0px)));
+  padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px))}
 .bar-in{max-width:46rem;margin:0 auto;display:flex;align-items:center;gap:10px;min-height:52px}
 .seal{display:inline-grid;place-items:center;background:var(--cinnabar);color:var(--paper);font-family:var(--zh);border-radius:3px;line-height:1}
 .bar .seal.topseal{width:42px;height:42px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;grid-auto-flow:column;direction:ltr;padding:4px;gap:0;box-shadow:inset 0 0 0 2px var(--cinnabar),inset 0 0 0 3.5px #f3e7cc;border-radius:4px}
@@ -308,6 +309,29 @@ footer{margin-top:48px;font-family:var(--ui);font-size:13px;color:var(--ink-soft
 :root[lang="zh-Hant"] .lab h3,:root[lang="zh-Hant"] .lab h3 *{font-family:var(--zh)!important;font-weight:600}
 
 
+
+/* tablet & laptop */
+@media (min-width:768px){
+ :root{--gut:32px}
+ .lab{padding:22px 24px}
+}
+@media (min-width:641px) and (max-width:1099px){
+ .mapgrid{grid-template-columns:1fr}
+ .mapgrid .map{max-width:640px;margin:0 auto}
+ .stops{max-width:640px;margin:0 auto;width:100%}
+}
+@media (min-width:1100px){
+ :root{--fs:1.125rem}
+ .wrap,.bar-in{max-width:48rem}
+ .wide{margin-left:calc((100% - min(68rem,100vw - 2*var(--gut)))/2);margin-right:calc((100% - min(68rem,100vw - 2*var(--gut)))/2)}
+ .lab.wide{padding:26px 30px}
+ .mapgrid{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:28px}
+ .scroll-x.wide .life{min-width:0}
+}
+@media (min-width:1500px){
+ .wrap,.bar-in{max-width:50rem}
+}
+
 /* mobile: vertical life timeline */
 .lifev{display:none;list-style:none;margin:18px 0 6px;padding:0 0 0 14px;border-left:2px solid var(--rule);position:relative}
 .lvb{position:relative;margin:0 0 12px}
@@ -430,7 +454,7 @@ footer{margin-top:48px;font-family:var(--ui);font-size:13px;color:var(--ink-soft
   <div class="zh-title" lang="zh">孔子世家</div>
   <p data-t="t005" class="thesis">Mồ côi cha từ nhỏ, xuất thân «nghèo và hèn»<sup class="cite" data-cite="poor"></sup>, Khổng Tử leo lên tới chức quyền tể tướng nước Lỗ năm 56 tuổi<sup class="cite" data-cite="xiang"></sup>, rồi bỏ đi khi kẻ cầm quyền mải mê đoàn vũ nữ nước Tề. Ông lang bạt 14 năm<sup class="cite" data-cite="fourteen"></sup>, không nước nào dùng, có lúc suýt chết đói. Về già ông chỉnh lại Thi, Thư, viết Xuân Thu, và người thường dân ấy được Tư Mã Thiên gọi là «chí thánh»<sup class="cite" data-cite="zhisheng"></sup>.</p>
 
-  <div class="scroll-x" role="group" aria-label="Một đời trên trục tuổi">
+  <div class="scroll-x wide" role="group" aria-label="Một đời trên trục tuổi">
   <svg class="life" viewBox="0 0 760 176" role="img" aria-label="Trục tuổi 0 đến 73, chia năm chặng">
     <line x1="40" y1="114" x2="730" y2="114" stroke-width="1"/><line class="tick" x1="40" y1="110" x2="40" y2="118"/><line class="tick" x1="200" y1="110" x2="200" y2="118"/><line class="tick" x1="322" y1="110" x2="322" y2="118"/><line class="tick" x1="369" y1="110" x2="369" y2="118"/><line class="tick" x1="510" y1="110" x2="510" y2="118"/><line class="tick" x1="566" y1="110" x2="566" y2="118"/><line class="tick" x1="604" y1="110" x2="604" y2="118"/><line class="tick" x1="632" y1="110" x2="632" y2="118"/><line class="tick" x1="679" y1="110" x2="679" y2="118"/><line class="tick" x1="707" y1="110" x2="707" y2="118"/><line class="tick" x1="726" y1="110" x2="726" y2="118"/><line class="tick" x1="200" y1="70" x2="200" y2="76"/><line class="tick" x1="369" y1="70" x2="369" y2="76"/><line class="tick" x1="510" y1="70" x2="510" y2="76"/><line class="tick" x1="604" y1="70" x2="604" y2="76"/><line class="tick" x1="679" y1="70" x2="679" y2="76"/><line class="tick" x1="726" y1="70" x2="726" y2="76"/>
     <g class="band" data-go="s1" tabindex="0" role="button" aria-label="Tuổi thơ, đến mục 1"><rect x="40" y="78" width="160" height="28" rx="2"/><text data-t="t006" class="bt" x="46" y="97">Tuổi thơ</text></g>
@@ -671,7 +695,7 @@ footer{margin-top:48px;font-family:var(--ui);font-size:13px;color:var(--ink-soft
     <div data-t="t082" class="meta"><span lang="zh">去魯周遊</span>56 – khoảng 68 tuổi · sách tr. 22–40</div></div></div>
   <p data-t="t083" class="point">Bị vây ở Khuông, bị đuổi ở Tống, bị chặn ở Bồ, ba lần quay lại nước Vệ. Đi suốt mười bốn năm<sup class="cite" data-cite="fourteen"></sup> mà không vua nào dùng ông.</p>
 
-  <div class="lab">
+  <div class="lab wide">
     <h3 data-t="t084">Đi theo ông, từng chặng</h3>
     
     <div class="mapgrid">
@@ -1264,7 +1288,7 @@ $("#g2b").onclick=()=>{ const v=+$("#g2r").value; $("#g2b").disabled=true; $("#g
   const r=$("#g2 .reveal"); r.hidden=false; const m=document.createElement("p"); m.className="small"; m.dataset.dyn="g2"; m.dataset.v=v; m.textContent=UI("guess_girls",{v})+" "+(v===80?UI("hit"):(v>80?UI("more"):UI("less"))); r.prepend(m); };
 
 /* route map */
-const C={魯:[425,154,"魯",10,-8],衛:[282,143,"衛",-24,-6,-30,-14],匡:[250,208,"匡",-24,6,-28,12],蒲:[262,174,"蒲",-26,0,-30,6],曹:[322,195,"曹",10,4],宋:[329,246,"宋",10,6],鄭:[191,247,"鄭",-26,6],陳:[273,299,"陳",10,6],蔡:[280,372,"蔡",10,6],葉:[163,308,"葉",-26,6]};
+const C={魯:[425,154,"魯",10,-8,62,24],衛:[282,143,"衛",-24,-6,-30,-14],匡:[250,208,"匡",-24,6,-28,12],蒲:[262,174,"蒲",-26,0,-30,6],曹:[322,195,"曹",10,4],宋:[329,246,"宋",10,6],鄭:[191,247,"鄭",-26,6],陳:[273,299,"陳",10,6],蔡:[280,372,"蔡",10,6],葉:[163,308,"葉",-26,6]};
 const R=["魯","衛","匡","蒲","衛","曹","宋","鄭","陳","蒲","衛","陳","蔡","葉","蔡","衛","魯"];
 const NS="http://www.w3.org/2000/svg", legsG=$("#legs"), citiesG=$("#cities");
 Object.values(C).forEach(([x,y,n,dx,dy,nx,ny])=>{ const c=document.createElementNS(NS,"circle"); c.setAttribute("cx",x); c.setAttribute("cy",y); c.setAttribute("r",5); c.setAttribute("class","city"); citiesG.appendChild(c);
@@ -1333,7 +1357,7 @@ $$(".qi").forEach(q=>$$(".opt",q).forEach(b=>b.addEventListener("click",()=>{ co
 
 /* hover preview for citations */
 (function(){ const tip=$("#tip"); const canHover=matchMedia("(hover: hover) and (pointer: fine)");
-  function show(el){ const id=el.dataset.cite, s=SOURCES[id]; if(!s||!canHover.matches) return;
+  function show(el){ if(!matchMedia("(hover:hover)").matches) return; const id=el.dataset.cite, s=SOURCES[id]; if(!s||!canHover.matches) return;
     $(".pg",tip).textContent=UI("page",{p:s.page,pp:s.page+4}); $(".zq",tip).textContent=s.quote; if(window.markNames) markNames($(".zq",tip));
     const para= LANG==="km" ? (I18N.kmsrc[id]||"") : LANG==="zh-Hant" ? "" : s.vi; $(".vv",tip).textContent=para; $(".vv",tip).hidden=!para;
     tip.hidden=false; const r=el.getBoundingClientRect(), tw=tip.offsetWidth, th=tip.offsetHeight;
